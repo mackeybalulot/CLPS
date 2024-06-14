@@ -1,0 +1,213 @@
+﻿numeric xblockE1_m1,xblockE2_m1,xblockE3_m1,xblockE4_m1,finallagayan_m1,xblockE1_m2,xblockE2_m2,xblockE3_m2,xblockE4_m2,finallagayan_m2;
+numeric xblockE1_m3,xblockE2_m3,xblockE3_m3,xblockE4_m3,finallagayan_m3,xblockF4_m1,xblockF4_M3;
+numeric d,oks,skiptonext ;
+
+function getErrorMsg(string xtext)
+    errmsg(" %s ",xtext);
+	reenter;
+end;
+
+function getErrorMsg2(string xtext,string description1,string itemName1)
+    errmsg(" %s ",xtext)
+	select(description1,itemName1,"Re-enter",reenter,"Force and Continue",continue);
+end;
+
+{
+function getErrorMsg3(string itemName1)
+	if strip(itemName1) = "" then
+	errmsg("Specify cannot be blank")
+end;
+}
+
+function getWarningMsg(string xtext)
+     d = errmsg(" %s ",xtext) select("Proceed",continue,"Re-enter",continue);
+	 if d = 2 then reenter; endif;
+end;
+
+function getOutOfRangeW(numeric xcur,numeric xstart,numeric xend)
+	if not xcur in 0,xstart:xend then
+		getWarningMsg("Entry is not in acceptable range");
+	endif; 
+end;
+
+function getOutOfRange(numeric xcur,numeric xstart,numeric xend, string xtxt)
+	//skiptonext = 0;
+	if not xcur in 0,xstart:xend then
+		// getWarningMsg("Entered value is not within the acceptable range");
+		 d = errmsg(" %s ",xtxt) select("Proceed",continue,"Re-enter",continue);
+		 if d = 2 then reenter; endif;
+	     //if d = 2 then skiptonext = 0 else skiptonext = 1 endif;
+	endif; 
+end;
+
+function getComputeTotal(numeric xtotal,numeric xitem1,numeric xitem2,numeric xitem3,numeric xitem4,numeric xitem5)
+numeric xtot_ages;
+	xtot_ages = xitem1 + xitem2 + xitem3 + xitem4 + xitem5;
+
+	if xtotal <> xtot_ages then
+		errmsg("Total is not equal to the sum of its breakdown");
+		reenter;
+	endif;
+end;
+
+function getTotalMsg(string xtext)
+	 errmsg("Total should not exceed the number of heads in the sum of beginning inventory, born live, and acquired in Month 1 %s ",xtext);
+	 reenter;
+end;
+
+function getNoAcceptCode()
+	errmsg("Entered value is not within the acceptable codes.");
+	reenter;
+end;
+
+function getInvtSuppDisp( numeric xcurocc,numeric xTOTAL ,numeric xStartAllBAM1,numeric xStartAllBAM2,numeric xStartAllBAM3, numeric xHeadTotM1,numeric xDispM2 )
+ 
+if xcurocc = 1 then
+       if xTOTAL  > xStartAllBAM1  then
+				getTotalMsg(" ");
+		   endif;
+	endif;
+	
+	if curocc() = 2 then
+		   if xTOTAL  > xStartAllBAM2 - xHeadTotM1 then
+				 getTotalMsg(" & 2 minus the total disposition of Month 1")
+		   endif;
+	endif;
+	if curocc() = 3 then
+		   if xTOTAL  > xStartALLBAM3 - xDispM2 then
+				  getTotalMsg(", 2 & 3 minus the total disposition of Months 1 & 2. ");
+		   endif;
+	endif; 
+end;
+function getEntryForHeadLVtFG_Bird(numeric xhd,numeric xlv, numeric xfg,numeric xYesFG,numeric xocc, string xtxt);
+	if xYesFG <> 1 then
+		if (xhd in 0,notappl or xlv in 0,notappl) and xfg > 0 then getErrorMsg(xtxt);	endif; 
+		if (xhd in 0,notappl or xfg in 0,notappl) and xlv > 0 then getErrorMsg(xtxt);	endif; 
+		if (xlv in 0,notappl or xfg in 0,notappl) and xhd > 0 then getErrorMsg(xtxt);	endif; 
+	endif;
+end;
+
+function getEntryForHeadLV_Bird(numeric xhd,numeric xlv,numeric xYesFG,numeric xocc, string xtxt);
+ 	if xlv > 0 and xhd in 0,notappl then   getErrorMsg(xtxt);	        endif; 
+	if xhd > 0 and xlv in 0,notappl then   getErrorMsg(xtxt);	        endif; 
+end;
+
+function getDestinationMth(numeric xBird, numeric xdes, string xbl, numeric xcnt)
+      if xBird > 0 and xdes = notappl then
+		   errmsg("%s.0%d  With entry in number of birds but no specified destination was selected",xbl,xcnt);reenter;
+	  elseif xBird = 0 and xdes <> notappl then
+		   errmsg("%s.0%d  Without entry in number of birds but specified destination was selected",xbl,xcnt+1);reenter;	   
+	  endif;
+end;
+
+//*** END for poultry ***//
+
+//*** for Other animals ***//
+ 
+function get_OheadErrMsg(numeric xhd, numeric xInvt,numeric xcnt, string xanimal,string xLChd)
+      if xhd > 0 and  xInvt = 0 then 
+     	 errmsg(" %s - %s (Number of Heads/Birds) is greater than zero and LN01 Col2 (Inventory as of 01 January 2023) is equal to zero", xanimal,xLChd);
+		 reenter;
+	 endif;
+end;
+
+
+function get_OheadLV_ErrMsg(numeric xhd, numeric xlv,numeric xcnt, string xanimal,string xLChd, string xLClv)
+      if xhd > 0 and  xlv = 0 then 
+     		errmsg("  %s -  %s (Number of Heads/Birds) is greater than 0 but %s (Average Liveweight) is equal to zero", xanimal,xLChd,xLClv);	
+            reenter;			
+	 elseif xhd = 0 and  xlv > 0 then 	
+            errmsg(" %s - %s (Average Liveweight) is greater than 0 but  %s (Number of Heads/Birds)  is equal to zero", xanimal,xLClv,xLChd);	
+			reenter;
+	 endif;
+end;
+
+
+
+function get_OheadFG_ErrMsg(numeric xfg,numeric xhd, numeric xcnt, string xanimal,string xLChd, string xLCfg)
+      if xhd > 0 and  xfg = 0 then 
+     		errmsg(" %s -  %s (Number of Heads/Birds)  is greater than 0 but %s (Average Farmgate Price) is equal to zero", xanimal,xLChd,xLCfg);	
+            reenter;			
+	 elseif xhd = 0 and  xfg > 0 then 	
+            errmsg(" %s - %s (Average Farmgate Price) is greater than 0 but  %s (Number of Heads/Birds)  is equal to zero", xanimal,xLCfg,xLChd);	
+			reenter;
+	 endif;
+end;
+
+function get_OheadErrMsg_Others(numeric xhd,numeric xInvt, numeric xcnt, string xanimal,string xLChd)
+      if xhd > 0 and  xInvt = 0 then 
+     	 errmsg(" %s -LN06 Col2 (Inventory as of 01 January 2023) should have an entry if  %s (Number of Heads/Birds)  is greater than zero ", xanimal,xLChd);
+		 reenter;
+      endif;      
+	  if xhd > 0 and strip(xanimal) = "" then 
+     	 errmsg(" %s -LN14 Col1(Name) has an entry but there was insufficient information. Please verify the data or provide the necessary informatioO. ", xanimal);
+		 reenter;
+      endif;	  
+	  // if  (poschar("Cat",strip(xanimal)) =  1  or poschar("Dog",strip(xanimal)) =  1 ) and xhd = 0 then 
+	  if not (strip(xanimal) in "1 - Cat","2 - Dog") and xhd = 0 then
+     	 errmsg(" %s -  There was specified information in  %s (Number of Heads/Birds)  but  LN14 Col1(Name) was not inputted. Please verify the entries. ", xanimal,xLChd);
+		 reenter;	 
+	 endif;
+end;
+
+
+
+function get_OheadLV_ErrMsg_other(numeric xlv,numeric xhd,numeric xcnt, string xanimal,string xLChd, string xLClv)
+      if xhd > 0 and  xlv = 0 then 
+     		errmsg("  %s - %s (Average Liveweight) < > is zero or blank but  %s (Number of Heads/Birds)  < > has an entry. Please indicate the average liveweight or verify the number of heads/birds.",xanimal,xLClv,xLChd);	
+            reenter;			
+	 elseif xhd = 0 and  xlv > 0 then 	
+            errmsg(" %s -  %s (Number of Heads/Birds)  < > is zero or blank but %s (Average Liveweight) < > has an entry. Please indicate the number of heads/birds or verify the average liveweight.", xanimal,xLChd,xLClv);	
+			reenter;
+	 endif;
+end;
+
+
+function get_OheadFG_ErrMsg_others(  numeric xfg,numeric xhd,numeric xcnt, string xanimal,string xLChd, string xLCfg)
+      if xhd > 0 and  xfg = 0 then 
+     		errmsg(" %s - %s (Average Farmgate Price) < > is zero or blank but Item %s (Number of heads/birds) < > has an entry. Please indicate the average farmgate price or verify the number of heads/birds.", xanimal,xLCfg,xLChd);	
+            reenter;			
+	 elseif xhd = 0 and  xfg > 0 then 	
+            errmsg(" %s -  %s (Number of heads/birds) < > is zero or blank but %s (Average Farmgate Price) < > has an entry. Please indicate the number of heads/birds or verify the average farmgate price.", xanimal,xLChd,xLCfg);	
+			reenter;
+	 endif;
+end;
+
+function getTotalDeathCause(numeric xD1 ,numeric xD2 ,numeric xD3 ,numeric xD4 ,numeric xD5 ,numeric xD6 ,numeric xD7 ,numeric xD8 ,
+                            numeric xD9 ,numeric xD10,numeric xD11,numeric xD12,numeric xD13,numeric xD14,numeric xD15,numeric xD16,
+							numeric xD17,numeric xD18,numeric xD19,numeric xD20,numeric xD21,numeric xD22,numeric xD23,numeric xD24,
+							numeric xD25,numeric xD26,numeric xD27,numeric xC1 ,numeric xC2 ,numeric xTotsup);
+ 
+ numeric xTot1,xTot2,xTot3, xTotalDC ;
+  
+  xTot1    = xD1 + xD2  + xD3  + xD4  + xD5  + xD6  + xD7  + xD8  + xD9  + xD10 + xD11 + xD12 + xD13 + xD14 + xD15;
+  xTot2    = xD16+ xD17 + xD18 + xD19 + xD20 + xD21 + xD22 + xD23 + xD24 + xD25 + xD26 + xD27 ;
+  xTot3    = xC1 + xC2  ;
+  
+  xTotalDC =   xTot1 + xTot2 + xTot3;  
+  
+   if  xTotalDC > xTotsup then
+        errmsg(" The Total Number of Heads/Birds[%d] > Total Supply[%d]  ", xTotalDC , xTotsup);
+   endif; 
+ 
+end;
+
+ 
+ function getCompareTotalSupDead(xcur,xtot1,xtot2,xtot3,xDselM1,xDselM2,xDselM3,string xtxt)
+    IF  xcur = 1 THEN 
+            if xDselM1 > xtot1 then  errmsg("  %s in month 1",xtxt);	endif;
+	ELSEIF  xcur = 2  THEN 
+			if xDselM2 > xtot2 then  errmsg("  %s in month 2",xtxt);	endif;	
+	ELSEIF  xcur = 3  THEN 
+			if xDselM3 > xtot3 then  errmsg("  %s in month 3",xtxt);	endif;	
+	ENDIF;
+    
+end;
+
+ function getTotalDispositionQTR(numeric xHB1,numeric xHB2,numeric xHB3,numeric xTotDC, numeric xTotSupQtr,numeric xEndInvt2,string xbl,numeric xcnt )
+numeric xtotDisp, xSupDisp;	
+	xtotDisp =  xHB1 + xHB2 + xHB3 + xTotDC;
+	xSupDisp = xTotSupQtr - xtotDisp;
+
+ end;
+ 

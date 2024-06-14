@@ -1,0 +1,161 @@
+﻿Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      11:07:52
+End Time        11:07:52
+
+
+***  has 1 message (0 E / 0 W / 0 U)
+    A    1010 Application error: protected field REF_QUARTER is out of range - value is  NOTAPPL
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      11:09:18
+End Time        11:09:18
+
+
+***  has 1 message (0 E / 0 W / 0 U)
+    A    1010 Application error: protected field REF_QUARTER is out of range - value is  NOTAPPL
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      11:27:51
+End Time        11:28:23
+
+
+System messages:
+
+  Number        Freq         Message Text                                                                               
+  ------        ----         ------------                                                                               
+    8052           1         You cannot execute SavePartial until the ID items are filled in                            
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      11:55:18
+End Time        11:55:27
+
+
+System messages:
+
+  Number        Freq         Message Text                                                                               
+  ------        ----         ------------                                                                               
+    8052           1         You cannot execute SavePartial until the ID items are filled in                            
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      11:57:59
+End Time        11:58:09
+
+
+System messages:
+
+  Number        Freq         Message Text                                                                               
+  ------        ----         ------------                                                                               
+    8052           1         You cannot execute SavePartial until the ID items are filled in                            
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      11:58:40
+End Time        11:58:48
+
+
+System messages:
+
+  Number        Freq         Message Text                                                                               
+  ------        ----         ------------                                                                               
+    8052           1         You cannot execute SavePartial until the ID items are filled in                            
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      12:00:57
+End Time        12:03:07
+
+
+System messages:
+
+  Number        Freq         Message Text                                                                               
+  ------        ----         ------------                                                                               
+    8052           1         You cannot execute SavePartial until the ID items are filled in                            
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      13:02:50
+End Time        13:02:58
+
+
+System messages:
+
+  Number        Freq         Message Text                                                                               
+  ------        ----         ------------                                                                               
+    8052           1         You cannot execute SavePartial until the ID items are filled in                            
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      13:03:36
+End Time        13:03:55
+
+
+System messages:
+
+  Number        Freq         Message Text                                                                               
+  ------        ----         ------------                                                                               
+    8052           1         You cannot execute SavePartial until the ID items are filled in                            
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------
+Application     C:\CLPS2023\PENS\LPSE_DE.ent
+Type            ENTRY
+
+Date            Feb 21, 2024
+Start Time      22:59:55
+End Time        22:59:55
+
+
+***  has 1 message (0 E / 0 W / 0 U)
+    A    1010 Application error: protected field REF_QUARTER is out of range - value is  NOTAPPL
+
+
+CSPro Executor Normal End
+------------------------------------------------------------------------------------------------------------------------

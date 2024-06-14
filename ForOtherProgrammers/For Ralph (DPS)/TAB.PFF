@@ -1,0 +1,17 @@
+[Run Information]
+Version=CSEntry 7.7
+AppType=Entry
+ 
+[Files]
+Application=C:\AGRI-LOCAL-FILES\PENS\LPSE_TAB.pen
+ 
+[Parameters]
+MasterlistPath=C:\AGRI-LOCAL-FILES\PENS\RESOURCES\RMASTERLIST
+OutputlistPath=C:\AGRI-LOCAL-FILES\PENS\RESOURCES\ROUTPUT
+InputlistPath=C:\AGRI-LOCAL-FILES\lpse\2023-4\OUTPUT
+MasterInputlistPath=C:\AGRI-LOCAL-FILES\lpse\2023-4\MASTERLIST
+
+REG=03
+PRV=049
+REF_QTR=4
+REF_YEAR=2023

@@ -1,0 +1,27 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=BLPS2023CAPI
+Name=BLPS2023CAPI
+AppType=DataEntry
+OperatorID=No
+CAPI=Yes
+CreateListing=No
+CreateLog=No
+ShowErrorMessageNumbers=No
+ComboBoxShowOnlyDiscreteValues=Yes
+ParadataCollection=AllEvents
+ParadataDeviceStateMinutes=5
+[AppCode]
+File=.\CLPS2023_CAPI.ent.apc
+Include=.\logic\GeneralFunction.apc
+Include=.\logic\AllAnimalFunction.apc
+[Message]
+File=.\CLPS2023_CAPI.ent.mgf
+[Help]
+File=.\CLPS2023_CAPI.ent.qsf
+[Forms]
+File=.\CLPS2023_CAPI.fmf
+[Resources]
+Folder=.\Resources
+[Dictionary Types]
+Dict-Type=.\CLPS.dcf,Input,.\CLPS2023_CAPI.fmf

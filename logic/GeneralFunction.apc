@@ -1,0 +1,291 @@
+﻿//****** General Directories *****//
+
+alpha (30) REFQUARTER,REFQUARTER1,REFQUARTER2,refmonth1,refmonth2,refmonth3;
+
+string Block_2_1_M1, Block_2_1_M2, Block_3_1_M1, Block_3_1_M2, Block_3_1_M3,Block_4_2_M1, Block_4_2_M2,Block_4_2_M3;
+string DATE_OF_VISIT,cYEAR,MyContact,cStartTime,cEndTime;
+
+numeric MY_NON_RESPONSE_REASON,MY_CONTACT,RES_VISIT,err;
+numeric refdays1,refdays2,refdays3;
+string prvMth1, prvMth2 , prvMth3;
+string E2_1_M1, E2_1_M2, E3_1_M1, E3_1_M2, E3_1_M3;
+
+array string E2_Month(2);
+array string E2_MonthMulti(6);
+array string E2_QtrMonth(3);
+array string PrevMonth(3);
+array string CurMonth(3);
+array string refQTR(4);
+
+array string E2_QtrMonthMulti(9);
+array string E2_QtrMonthDbl(6);
+array string CarabaoSpecies(3) = "Carabull", "Caracow", "Other Ages";
+array String CarabaoSpecies2(3) = "Caracalf/Yearling", "Caraheifer", "Others (carabull, caracow and castrated male carabao)";
+array string CattleSpecies(3) = "Bull", "Cow", "Other Ages";
+array String CattleSpecies2(3) = "Calf/Yearling", "Heifer", "Others (bull, cow and castrated male cattle)";
+array string SwineSpecies(3) = "Fattener/Finisher/Grower", "Culled Breeder", "Other Ages";
+array string SwineSpecies2(4) = "Piglet", "Weanling", "Gilt", "Others (boar, sow, fattener/finisher/grower)";
+array string GoatSpecies(3) = "Buck", "Doe", "Other Ages";
+array string GoatSpecies2(3) = "Kid", "Doeling", "Others (buck, doe, castrated male goat, and buckling)";
+array string SheepSpecies(3) = "Ram", "Ewe", "Other Ages";
+array string SheepSpecies2(3) = "Lamb", "Ewe Lamb", "Others (ram, ewe, castrated male sheep, and Ram Lamb)";
+array string BroilerSpecies(2) = "Broiler", "Breeder";
+array string BroilerSpecies2(2) = "Grower(8 days and above)", "Day-old Chicks(1 to 7 days)";
+array string LayerSpecies(2) = "Layer", "Breeder";
+array string LayerSpecies2(3) = "Day-old chicks", "Ready-to-lay pullets", "Others";
+array string NativeSpecies2(2) = "Laying flock", "Other Ages";
+array string GamefowlSpecies2(4) = "Chicks", "Brood Cock", "Fighting Cock", "Other Ages";
+array String Death(2) = "Disease", "Other Causes";
+array string MilkDestination(3) = "Philippine Carabao Center (PCC) and Assisted Cooperatives","National Dairy Authority (NDA) and Assisted Cooperatives","Other than PCC and NDA";
+array string GamefowlAges(4)     = "Chicks","Brood Cock","Figthing Cock","Other ages";
+array string NativeChickenAges(2)= "Laying Flock", "Other Ages";
+
+array string LayerDeath(3)       = "a. Avian Influenza (Bird Flu)", "b. Other disease", "c. Other reasons";
+array string GamefowlDeath(3)    = "Avian Influenza (Bird Flu)", "Other disease", "Other causes";
+array string DuckSpecies(3)      = "Mallard", "Muscovy", "Other Types"; 
+array string DuckSpecies2(9)     = "Mallard", "Muscovy", "Other Types","Mallard", "Muscovy", "Other Types","Mallard", "Muscovy", "Other Types"; 
+array string EggSpecies(2)       = "Mallard", "Muscovy"; 
+array string NativeDeath(4)      = "a. Avian Influenza (Bird Flu)", "b. Newcastle Disease (ND)", "c. Other disease", "d. Other causes";
+array string OtherAnimals(5)     = "Horse", "Rabbit", "Quail", "Turkey", "Goose";
+array string OtherEGGAnimals(3)  =  "Quail", "Turkey", "Goose";
+array string NonSpecAnimal(13)   = "Cat","Dog","Pigeon/Dove","Guinea fowl","Guinea Pig","Hamster","Love Birds","Monkey","Myna","Paloma Bird","Peacock","Starling Birds","White Mice";
+array string DuckOPSpecies(3)    = "Laying Flock","Male Breeder","Other Ages";
+array string SwineOPSpecies(4)   = "Boar","Sow","weanling", "Other Ages";
+array string NativeOPSpecies(2)  = "Adult Female","Other Ages";
+
+
+
+FUNCTION MONTHS_LABEL();
+
+	if tonumber(sysparm("REF_QUARTER")) = 1 then  // Survey round 1=
+		REFQUARTER  = "January";
+		REFQUARTER1 = "January";
+		REFQUARTER2 = "March"; 	 	
+		refmonth1   = "January";
+		refmonth2   = "February";
+		refmonth3   = "March";
+		refdays1    = 31;
+		refdays2    = 29;
+		refdays3    = 31;
+		INVENTORY_LABEL3 = concat(" 01 January to 31 March ",EDIT("9999",tonumber(sysparm("REF_YEAR"))));
+		DISPO_LABEL5     = concat(" 01 January to 31 March ",EDIT("9999",tonumber(sysparm("REF_YEAR"))-1));
+	elseif tonumber(sysparm("REF_QUARTER")) = 2 then 
+		REFQUARTER  = "April";
+		REFQUARTER1 = "April";
+		REFQUARTER2 = "June"; 	 	
+		refmonth1   = "April";
+		refmonth2   = "May";
+		refmonth3   = "June";
+		refdays1    = 30;
+		refdays2    = 31;
+		refdays3    = 30;
+		INVENTORY_LABEL3 = concat(" 01 April to 30 June ",EDIT("9999",tonumber(sysparm("REF_YEAR"))));
+		DISPO_LABEL5     = concat(" 01 April to 30 June ",EDIT("9999",tonumber(sysparm("REF_YEAR"))-1));   	
+	  
+	elseif tonumber(sysparm("REF_QUARTER")) = 3 then // survey round 3
+		REFQUARTER  = "October";
+		REFQUARTER1 = "July";
+		REFQUARTER2 = "September"; 	 	
+		refmonth1   = "July";
+		refmonth2   = "August";
+		refmonth3   = "September";
+		refdays1    = 31;
+		refdays2    = 31;
+		refdays3    = 30;
+		INVENTORY_LABEL3 = concat(" 01 July to 30 September ",EDIT("9999",tonumber(sysparm("REF_YEAR"))));
+		DISPO_LABEL5     = concat(" 01 July to 30 September ",EDIT("9999",tonumber(sysparm("REF_YEAR"))-1));   	
+		 
+	elseif tonumber(sysparm("REF_QUARTER")) = 4 then 
+		REFQUARTER  = "January";
+		REFQUARTER1 = "October";
+		REFQUARTER2 = "December"; 	 	
+		refmonth1   = "October";
+		refmonth2   = "November";
+		refmonth3   = "December";
+		refdays1    = 31;
+		refdays2    = 30;
+		refdays3    = 31;
+		INVENTORY_LABEL3 = concat(" 01 October to 31 December ",EDIT("9999",tonumber(sysparm("REF_YEAR"))));
+		DISPO_LABEL5     = concat(" 01 October to 31 December ",EDIT("9999",tonumber(sysparm("REF_YEAR"))-1));
+	endif;
+   
+END;
+
+FUNCTION Heading_month()
+
+	Block_2_1_M1=CONCAT("As of 01 ",STRIP(REFQUARTER1) ," ", EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	Block_2_1_M2=CONCAT("As of ",edit("99",refdays3)," ",STRIP(REFQUARTER2) ," ", EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	Block_3_1_M1=CONCAT(STRIP(refmonth1) ," ",  EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	Block_3_1_M2=CONCAT(STRIP(refmonth2) ," ",  EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	Block_3_1_M3=CONCAT(STRIP(refmonth3) ," ",  EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	
+	Block_4_2_M1=CONCAT(STRIP(refmonth1) ," ",  EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	Block_4_2_M2=CONCAT(STRIP(refmonth2) ," ",  EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	Block_4_2_M3=CONCAT(STRIP(refmonth3) ," ",  EDIT("9999",tonumber(sysparm("REF_YEAR")))); 
+	
+	prvMth1 = CONCAT(STRIP(refmonth1) ," ", EDIT("9999",tonumber(sysparm("REF_YEAR"))-1));
+	prvMth2 = CONCAT(STRIP(refmonth2) ," ", EDIT("9999",tonumber(sysparm("REF_YEAR"))-1));
+	prvMth3 = CONCAT(STRIP(refmonth3) ," ", EDIT("9999",tonumber(sysparm("REF_YEAR"))-1)); 
+	
+    refQTR(1) = CONCAT("Q1 (",STRIP(REFQUARTER1)," to ",STRIP(REFQUARTER2),")");
+	refQTR(2) = CONCAT("Q2 (",STRIP(REFQUARTER1)," to ",STRIP(REFQUARTER2),")");
+	refQTR(3) = CONCAT("Q3 (",STRIP(REFQUARTER1)," to ",STRIP(REFQUARTER2),")");
+	refQTR(4) = CONCAT("Q4 (",STRIP(REFQUARTER1)," to ",STRIP(REFQUARTER2),")");
+
+	E2_1_M1=Block_2_1_M1;
+	E2_1_M2=Block_2_1_M2;
+	E2_Month(1)=E2_1_M1;
+	E2_Month(2)=E2_1_M2;
+	E2_MonthMulti(1)=E2_1_M1;
+	E2_MonthMulti(2)=E2_1_M1;
+	E2_MonthMulti(3)=E2_1_M1;
+	E2_MonthMulti(4)=E2_1_M2;
+	E2_MonthMulti(5)=E2_1_M2;
+	E2_MonthMulti(6)=E2_1_M2;
+	
+	E3_1_M1=Block_3_1_M1;
+	E3_1_M2=Block_3_1_M2;
+	E3_1_M3=Block_3_1_M3;
+	
+	E2_QtrMonth(1)=E3_1_M1;
+	E2_QtrMonth(2)=E3_1_M2;
+	E2_QtrMonth(3)=E3_1_M3;
+	
+	CurMonth(1) = Block_4_2_M1;
+	CurMonth(2) = Block_4_2_M2;
+	CurMonth(3) = Block_4_2_M3;
+	
+	PrevMonth(1) = prvMth1;
+	PrevMonth(2) = prvMth2;
+	PrevMonth(3) = prvMth3;
+	
+	E2_QtrMonthMulti(1)=E3_1_M1;
+	E2_QtrMonthMulti(2)=E3_1_M1;
+	E2_QtrMonthMulti(3)=E3_1_M1;
+	E2_QtrMonthMulti(4)=E3_1_M2;
+	E2_QtrMonthMulti(5)=E3_1_M2;
+	E2_QtrMonthMulti(6)=E3_1_M2;
+	E2_QtrMonthMulti(7)=E3_1_M3;
+	E2_QtrMonthMulti(8)=E3_1_M3;
+	E2_QtrMonthMulti(9)=E3_1_M3;
+	
+	E2_QtrMonthDbl(1)=E3_1_M1;
+	E2_QtrMonthDbl(2)=E3_1_M1;
+	E2_QtrMonthDbl(3)=E3_1_M2;
+	E2_QtrMonthDbl(4)=E3_1_M2;
+	E2_QtrMonthDbl(5)=E3_1_M3;
+	E2_QtrMonthDbl(6)=E3_1_M3;
+	
+	DATE_OF_VISIT  = edit("99-99-9999",sysdate("MMDDYYYY"));
+	cYEAR          = edit("9999",sysdate("YYYY"));
+	
+	
+    // IF  VISUALVALUE(C3L14_NON_RESPONSE_REASON) IN NOTAPPL,DEFAULT THEN
+          // MY_NON_RESPONSE_REASON = 0;
+    // ELSE    
+  	      // MY_NON_RESPONSE_REASON = C3L14_NON_RESPONSE_REASON ;
+	// ENDIF;
+	
+	
+		
+END;
+
+function writeEN()
+	file toEN;
+	String path1;
+	
+filedelete("/storage/emulated/0/download/CLPS/*.*");
+dirdelete("/storage/emulated/0/download/CLPS");
+dircreate("/storage/emulated/0/download/CLPS");
+numeric x = filecreate("/storage/emulated/0/download/CLPS/CLPS_toEN.txt");
+setfile(toEN, "/storage/emulated/0/download/CLPS/CLPS_toEN.txt", create);
+	
+    toEN.open("/storage/emulated/0/download/CLPS/CLPS_toEN.txt", append);
+	toEN.write(maketext("YEAR=%s",cYEAR)); 
+	toEN.write(maketext("QUARTER=%01d",visualvalue(REF_QUARTER)));
+	toEN.write(maketext("REG=%s", edit("99",visualvalue(REG))));
+	toEN.write(maketext("PRV=%s", edit("999",visualvalue(PROV))));
+	toEN.write(maketext("MUN=%s", edit("99",visualvalue(MUN))));
+	toEN.write(maketext("BGY=%s", edit("999",visualvalue(BGY))));
+	 
+   	toEN.write(maketext("ECN=%014s", ECN));
+	toEN.write(maketext("B2L02_BN=%s",B2L02_BN));
+	toEN.write(maketext("B2L03_OWNER_MNGR_NAME=%s",B2L03_OWNER_MNGR_NAME));
+		
+	
+	IF strip(B5L05_ADD_ESTAB) ="" then 
+		toEN.write(maketext("B5L05_ADD_ESTAB=BLANK"));
+	else
+	    toEN.write(maketext("B5L05_ADD_ESTAB=%s",B5L05_ADD_ESTAB));
+    endif;
+	
+	toEN.write(maketext("C4L10_NUM_VISIT=%01d",visualvalue(C4L10_NUM_VISIT)));
+	toEN.write(maketext("C1L07_RESP_NAME=%s",C1L07_RESP_NAME));
+	
+	toEN.write(maketext("MAX_CAP=%07d",visualvalue(MAX_CAP)));
+	toEN.write(maketext("INTEGRATOR_MC=%s",INTEGRATOR_MC));
+	toEN.write(maketext("A_INVENTORY=%07d",visualvalue(A_INVENTORY)));
+	toEN.write(maketext("YEAR_STARTED_OP=%04d",visualvalue(YEAR_STARTED_OP)));
+	toEN.write(maketext("ECO_ACTIVITY=%01d",visualvalue(ECO_ACTIVITY)));
+	
+	
+	toEN.write(maketext("DATEOFVISIT=%s",DATE_OF_VISIT));
+
+	IF VISUALVALUE(B6L06_CONTACTNO) IN NOTAPPL,DEFAULT THEN
+	      toEN.write(maketext("CONTACTNO=BLANK"));
+	ELSE	
+	      toEN.write(maketext("CONTACTNO=%11d", VISUALVALUE(B6L06_CONTACTNO) ));
+	ENDIF;
+	
+	
+	if  not visualvalue(INTERVIEW_STATUS) in notappl,default then
+ 		toEN.write(maketext("RESULT=%s", edit("9",visualvalue(INTERVIEW_STATUS))));
+	else
+		toEN.write(maketext("RESULT=BLANK"));
+	endif;
+	
+	if  not visualvalue(NONRESPONSE) in notappl,default then
+ 		toEN.write(maketext("NONRESPONSE=%s", edit("9",visualvalue(NONRESPONSE))));
+	else
+		toEN.write(maketext("NONRESPONSE=BLANK"));
+	endif;
+	
+	
+	if  not visualvalue(C3L09_STATUS_OP_RESULT_VISIT) in notappl,default then
+ 		toEN.write(maketext("C3L09_STATUS_OP_RESULT_VISIT=%s", edit("99",visualvalue(C3L09_STATUS_OP_RESULT_VISIT))));
+	else
+		toEN.write(maketext("C3L09_STATUS_OP_RESULT_VISIT=BLANK"));
+	endif;
+	
+    
+	// IF strip(SR_NAME) ="" then 
+		// toEN.write(maketext("SRNAME=BLANK"));
+	// else
+	    // toEN.write(maketext("SRNAME =%s",SR_NAME));
+    // endif;
+	
+    toEN.write(maketext("STARTTIME=%s",SURVEY_START_TIME));
+    toEN.write(maketext("ENDTIME=%s",SURVEY_END_TIME));
+   
+	toEN.close();
+end;
+
+
+
+
+
+function stopInterview()
+
+	//writeEN();
+	//CreateDirectories();
+	savepartial();
+	INTVW = 3;
+	//CreateDirectories();
+	
+	execsystem("app:ph.gov.psa.enapplication",stop);
+	stop(1);
+end;
+
+
+
+
